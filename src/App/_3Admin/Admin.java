@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Vector;
@@ -22,7 +23,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import App.Dao.GetTxt;
+import App.Dao.ExportToTxt;
+
 /**
  *
  * 管理员类
@@ -87,7 +89,7 @@ public class Admin extends JFrame {
         Collections.addAll(titles, "姓名", "账号", "密码", "余额");
         Vector<Vector> stuInfo = new PageController().getPaegData();// 获取第一页的数据
 
-//      使用静态数据创建DefaultTableModel数据模型
+        // 使用静态数据创建DefaultTableModel数据模型
         model = new DefaultTableModel(stuInfo, titles) {// 使用Vector装载表格数据模型，覆写getColumnClass方法，实现按各列的数据类型排序
             @Override
             public Class getColumnClass(int column) {// 获取列的类型
@@ -158,7 +160,11 @@ public class Admin extends JFrame {
         btnTxt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GetTxt.gettxt();
+                try {
+                    ExportToTxt.getText();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         btnTxt.setBounds(246, 49, 95, 25);

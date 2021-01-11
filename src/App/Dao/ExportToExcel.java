@@ -24,7 +24,7 @@ import bean.Message;
  * 生成表格文件类
  *
  */
-public class GetExcel {
+public class ExportToExcel {
     /**
      *
      * @param listMsg List
@@ -35,30 +35,28 @@ public class GetExcel {
         Vector<Vector> rows = new Vector<Vector>();// 定义要返回的所有记录集合
         File file = new File("users.xlsx");// 定位要操作的excel文件
         Workbook workbook = new XSSFWorkbook();// 创建工作簿对象
-        Sheet sheet = workbook.createSheet("users");// 创建工作表对象
+        Sheet sheet = workbook.createSheet("Users");// 创建工作表对象
         Message msg = new Message();
         DatabaseConnection01 dbcs = new DatabaseConnection01();// 使用1中定义的连接数据库的类
         ResultSet rs = null;
         try (Connection conn = dbcs.getConnection(); // 获取数据库接
-                PreparedStatement pstmt = conn.prepareStatement("select * from Users");) {
+                PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Users");) {
             rs = pstmt.executeQuery();
-            if (rs.next()) {
-                msg.setName(rs.getString("name"));
-                msg.setAccount(rs.getString("account"));
-                msg.setPassword(rs.getString("password"));
-                msg.setBalance(rs.getDouble("balance"));
-                int i = 0;
-                for (Message msg1 : listMsg) {
+            for (int i = 0; i <= rs.getRow(); i++) {
+                if (rs.next()) {
+                    msg.setName(rs.getString("name"));
+                    msg.setAccount(rs.getString("account"));
+                    msg.setPassword(rs.getString("password"));
+                    msg.setBalance(rs.getDouble("balance"));
                     Row row = sheet.createRow(i);// 创建行对象，下标从0开始
                     Cell cell1 = row.createCell(0);// 创建单元格，从0开始
-                    cell1.setCellValue(msg1.getName());
+                    cell1.setCellValue(msg.getName());
                     Cell cell2 = row.createCell(1);
-                    cell2.setCellValue(msg1.getAccount());
+                    cell2.setCellValue(msg.getAccount());
                     Cell cell3 = row.createCell(2);
-                    cell3.setCellValue(msg1.getPassword());
+                    cell3.setCellValue(msg.getPassword());
                     Cell cell4 = row.createCell(3);
-                    cell4.setCellValue(msg1.getBalance());
-                    i++;
+                    cell4.setCellValue(msg.getBalance());
                 }
             }
         } catch (SQLException e) {
@@ -74,6 +72,7 @@ public class GetExcel {
 
     /**
      * 生成表格文件
+     * 
      * @param args String[]
      */
     public static void main(String[] args) {
