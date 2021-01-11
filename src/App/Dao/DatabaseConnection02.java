@@ -132,8 +132,7 @@ public class DatabaseConnection02 {
             if (rs.next()) {
                 msg.setBalance(rs.getDouble("balance"));
                 if (msg.getBalance() >= money) {// 判断余额与所取金额的大小关系
-                    String sql_1 = "UPDATE Users "// 实现本账户金额减少
-                            + "SET balance -= ? WHERE account = ? ";
+                    String sql_1 = "UPDATE Users " + "SET balance -= ? WHERE account = ? ";// 实现本账户金额减少
                     ps_1 = conn.prepareStatement(sql_1);
                     ps_1.setDouble(1, money);
                     ps_1.setString(2, account);
