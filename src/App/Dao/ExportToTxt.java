@@ -18,8 +18,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ExportToTxt {
     /**
      * 将xlsx文件转为txt文件
-     * @throws IOException
+     * @throws IOException getText
      */
+    @SuppressWarnings("deprecation")
     public static void getText() throws IOException {
         ArrayList<String> listMsg = new ArrayList<String>();
         File file = new File("users.xlsx");
